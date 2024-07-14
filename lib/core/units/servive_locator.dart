@@ -3,16 +3,10 @@ import 'package:get_it/get_it.dart';
 import '../../features/home/data/repos/home_repos_impl.dart';
 import 'api_service.dart';
 
-final getIt = GetIt.instance;
+final locator = GetIt.instance;
 
-void setUp(){
-  getIt.registerSingleton<ApiService>(
-    ApiService(
-      Dio(),
-    ),);
-  getIt.registerSingleton<HomeReposImpl>(
-    HomeReposImpl(
-      getIt.get<ApiService>(),
-    ),
-  );
+Future<void> setUpLocator()async {
+  locator.registerSingleton(()=>ApiService(Dio()));
+  locator.registerLazySingleton(
+        ()=> HomeReposImpl(locator<ApiService>()));
 }

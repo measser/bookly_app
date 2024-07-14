@@ -1,17 +1,20 @@
+import 'package:bookly_app/core/units/function/lanch_url.dart';
+import 'package:bookly_app/features/home/data/models/Books_model.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/widgets/custom_button.dart';
 
 class BooksActions extends StatelessWidget {
-  const BooksActions({super.key});
-
+  const BooksActions({super.key, required this.booksModel});
+final BooksModel booksModel;
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return  Row(
       children: [
-        Expanded(child: CustomButton(
+        const Expanded(child: CustomButton(
           backgroundColor: Colors.white,
-          text: '19.99E',
+          text: 'Free',
           textcolor: Colors.black,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(16),
@@ -19,10 +22,14 @@ class BooksActions extends StatelessWidget {
           ),
         )),
         Expanded(child: CustomButton(
-          backgroundColor: Color(0xffEF8262),
-          text: '19.99E',
+          onPressed: (){
+            launcherCustomUrl(context, booksModel.volumeInfo!.previewLink!);
+
+          },
+          backgroundColor: const Color(0xffEF8262),
+          text: getText(booksModel),
           textcolor: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topRight: Radius.circular(16),
             bottomRight: Radius.circular(16),
           ),
@@ -30,4 +37,12 @@ class BooksActions extends StatelessWidget {
       ],
     );
   }
+
+  String  getText(BooksModel booksModel){
+    if(booksModel.volumeInfo!.previewLink == null){
+      return 'Not Available';
+    }else{
+      return 'Preview';
+    }
+}
 }

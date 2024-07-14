@@ -11,10 +11,8 @@ class CustomTextFormField extends StatelessWidget {
     return TextField(
       keyboardType: TextInputType.text,
       onChanged: (value) {
-        if (value.length>2) {
           BlocProvider.of<SearchBooksCubit>(context)
               .fetchSearchBooks(bookSearch: value);
-        }
       },
       decoration: InputDecoration(
         hintText: 'Search',
